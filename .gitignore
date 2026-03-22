@@ -1,0 +1,14 @@
+node_modules/
+dist/
+out/
+whisper.cpp/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.wav
+*.mp3
+.DS_Store
+.env
+.env.local
