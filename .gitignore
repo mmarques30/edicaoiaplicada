@@ -10,8 +10,10 @@ whisper.cpp/
 *.wav
 *.mp3
 
-# Exceção: b-roll pequenos podem ir no git
+# Exceção: b-roll e imagens de stock podem ir no git
 !public/videos/broll/*.mp4
+!public/images/*.jpg
+!public/images/*.png
 .DS_Store
 .env
 .env.local

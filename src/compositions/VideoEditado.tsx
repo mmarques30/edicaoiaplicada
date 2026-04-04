@@ -7,6 +7,7 @@ import {
   interpolate,
   spring,
   OffthreadVideo,
+  Img,
   staticFile,
   Easing,
 } from "remotion";
@@ -28,6 +29,12 @@ type CutType = {
   broll?: string;
   brollStart?: number;
   brollDuration?: number;
+  /** Imagem de stock para sobrepor (caminho relativo a public/) */
+  image?: string;
+  /** Segundo de início da imagem dentro do corte */
+  imageStart?: number;
+  /** Duração da imagem em segundos */
+  imageDuration?: number;
   transition?: "cut" | "fade" | "zoom-in";
 };
 
@@ -50,9 +57,9 @@ const CUTS: CutType[] = [
     zoom: 1.35,
     zoomTarget: "face",
     transition: "zoom-in",
-    broll: "videos/broll/broll-02-interface.mp4",
-    brollStart: 2,
-    brollDuration: 4,
+    image: "images/ai-automation.jpg",
+    imageStart: 3,
+    imageDuration: 4,
   },
 
   // "E ela já está competindo... vou te mostrar o poder real"
@@ -79,9 +86,9 @@ const CUTS: CutType[] = [
     srcEnd: 71,
     zoom: 1.25,
     zoomTarget: "face",
-    broll: "videos/broll/broll-01-equipe.mp4",
-    brollStart: 0.5,
-    brollDuration: 3.5,
+    image: "images/business-startup.jpg",
+    imageStart: 1,
+    imageDuration: 3.5,
   },
 
   // "Logo, cores, cartões de visita... Tudo feito automaticamente"
@@ -91,9 +98,9 @@ const CUTS: CutType[] = [
     zoom: 1.4,
     zoomTarget: "face",
     transition: "zoom-in",
-    broll: "videos/broll/broll-04-app.mp4",
-    brollStart: 0.5,
-    brollDuration: 3,
+    image: "images/graphic-design.jpg",
+    imageStart: 0.5,
+    imageDuration: 3,
   },
 
   // === CENÁRIO 2: Website ===
@@ -104,9 +111,9 @@ const CUTS: CutType[] = [
     srcEnd: 103,
     zoom: 1.0,
     transition: "fade",
-    broll: "videos/broll/broll-03-demo.mp4",
-    brollStart: 1,
-    brollDuration: 4,
+    image: "images/website-dev.jpg",
+    imageStart: 2,
+    imageDuration: 4,
   },
 
   // === CENÁRIO 3: Pitch deck ===
@@ -118,9 +125,9 @@ const CUTS: CutType[] = [
     zoom: 1.15,
     zoomTarget: "face",
     transition: "zoom-in",
-    broll: "videos/broll/broll-05-demos.mp4",
-    brollStart: 1,
-    brollDuration: 4,
+    image: "images/pitch-deck.jpg",
+    imageStart: 2,
+    imageDuration: 4,
   },
 
   // === CENÁRIO 4: Automação de clientes ===
@@ -131,9 +138,9 @@ const CUTS: CutType[] = [
     srcEnd: 200,
     zoom: 1.0,
     transition: "fade",
-    broll: "videos/broll/broll-06-features.mp4",
-    brollStart: 0.5,
-    brollDuration: 5,
+    image: "images/email-automation.jpg",
+    imageStart: 1,
+    imageDuration: 5,
   },
 
   // === ENCERRAMENTO ===
@@ -249,8 +256,8 @@ const ZoomVideo: React.FC<{
   );
 };
 
-/** B-roll overlay com animação de PiP (picture-in-picture) */
-const BRollOverlay: React.FC<{
+/** Imagem de stock sobreposta com animação picture-in-picture */
+const ImageOverlayStock: React.FC<{
   src: string;
   startSec: number;
   durationSec: number;
@@ -264,51 +271,58 @@ const BRollOverlay: React.FC<{
 
   const localFrame = frame - startFrame;
 
-  // Entrada suave
+  // Entrada com spring
   const enterProgress = spring({
     frame: localFrame,
     fps: FPS,
-    config: { damping: 15, stiffness: 100 },
-    durationInFrames: 15,
+    config: { damping: 12, stiffness: 120 },
+    durationInFrames: 18,
   });
 
   // Saída suave
   const fadeOut = interpolate(
     localFrame,
-    [durationFrames - 10, durationFrames],
+    [durationFrames - 12, durationFrames],
     [1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
-  const scale = interpolate(enterProgress, [0, 1], [0.8, 1]);
+  const scale = interpolate(enterProgress, [0, 1], [0.75, 0.85]);
+
+  // Ken Burns lento na imagem
+  const imgScale = interpolate(localFrame, [0, durationFrames], [1, 1.08], {
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill
       style={{
+        justifyContent: "center",
+        alignItems: "center",
         opacity: enterProgress * fadeOut,
-        transform: `scale(${scale})`,
-        borderRadius: 20,
-        overflow: "hidden",
       }}
     >
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          border: "3px solid rgba(255,255,255,0.2)",
-          borderRadius: 20,
-          zIndex: 2,
-          pointerEvents: "none",
+          width: "85%",
+          height: "45%",
+          borderRadius: 16,
+          overflow: "hidden",
+          transform: `scale(${scale})`,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
+          border: "2px solid rgba(255,255,255,0.15)",
         }}
-      />
-      <OffthreadVideo
-        src={staticFile(src)}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
+      >
+        <Img
+          src={staticFile(src)}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transform: `scale(${imgScale})`,
+          }}
+        />
+      </div>
     </AbsoluteFill>
   );
 };
@@ -503,11 +517,11 @@ export const VideoEditado: React.FC = () => {
             transition={cut.transition ?? "cut"}
           />
 
-          {cut.broll && (
-            <BRollOverlay
-              src={cut.broll}
-              startSec={cut.brollStart ?? 0}
-              durationSec={cut.brollDuration ?? 3}
+          {cut.image && (
+            <ImageOverlayStock
+              src={cut.image}
+              startSec={cut.imageStart ?? 0}
+              durationSec={cut.imageDuration ?? 3}
             />
           )}
 
