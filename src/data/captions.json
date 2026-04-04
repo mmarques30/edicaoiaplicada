@@ -150,7 +150,7 @@
     "endMs": 24340
   },
   {
-    "text": "Jens",
+    "text": "Gens",
     "startMs": 24340,
     "endMs": 24820
   },
@@ -455,13 +455,8 @@
     "endMs": 58980
   },
   {
-    "text": "e",
+    "text": "e-commerce,",
     "startMs": 58980,
-    "endMs": 59080
-  },
-  {
-    "text": "-commerce,",
-    "startMs": 59080,
     "endMs": 59520
   },
   {
@@ -1935,13 +1930,8 @@
     "endMs": 191680
   },
   {
-    "text": "e",
+    "text": "emails,",
     "startMs": 191680,
-    "endMs": 191900
-  },
-  {
-    "text": "-mails,",
-    "startMs": 191900,
     "endMs": 192140
   },
   {
@@ -1975,13 +1965,8 @@
     "endMs": 196240
   },
   {
-    "text": "a",
-    "startMs": 196240,
-    "endMs": 196360
-  },
-  {
     "text": "classifica,",
-    "startMs": 196360,
+    "startMs": 196240,
     "endMs": 196900
   },
   {
@@ -2060,12 +2045,12 @@
     "endMs": 207540
   },
   {
-    "text": "Agents",
+    "text": "Gens",
     "startMs": 207700,
     "endMs": 207980
   },
   {
-    "text": "Parks,",
+    "text": "Park,",
     "startMs": 207980,
     "endMs": 208300
   },
@@ -2350,16 +2335,6 @@
     "endMs": 237720
   },
   {
-    "text": "pre",
-    "startMs": 237720,
-    "endMs": 237840
-  },
-  {
-    "text": "-guer...",
-    "startMs": 237840,
-    "endMs": 238680
-  },
-  {
     "text": "Isso",
     "startMs": 239360,
     "endMs": 239600
@@ -2490,13 +2465,8 @@
     "endMs": 247680
   },
   {
-    "text": "pre",
+    "text": "upgrade",
     "startMs": 247680,
-    "endMs": 247800
-  },
-  {
-    "text": "-grade",
-    "startMs": 247800,
     "endMs": 248000
   },
   {

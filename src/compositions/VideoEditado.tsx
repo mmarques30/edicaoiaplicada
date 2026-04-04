@@ -17,146 +17,148 @@ type CaptionWord = { text: string; startMs: number; endMs: number };
 const captions = captionsData as CaptionWord[];
 
 // ============================================================
-// EDIÇÃO: Definir os cortes e efeitos do vídeo
+// EDIÇÃO: Timeline com cortes limpos (sem repetições)
 // ============================================================
 
 type CutType = {
-  /** Segundo de início no vídeo fonte */
   srcStart: number;
-  /** Segundo de fim no vídeo fonte */
   srcEnd: number;
-  /** Zoom (1 = normal, 1.3 = zoom in) */
   zoom?: number;
-  /** Posição do zoom: "center" | "top" | "bottom" | "face" */
   zoomTarget?: "center" | "top" | "bottom" | "face";
-  /** B-roll: arquivo de vídeo para sobrepor */
   broll?: string;
-  /** Segundo de início do b-roll dentro do corte */
   brollStart?: number;
-  /** Duração do b-roll em segundos */
   brollDuration?: number;
-  /** Transição de entrada: "cut" | "fade" | "zoom-in" */
   transition?: "cut" | "fade" | "zoom-in";
 };
 
-// Timeline de edição - cada entrada é uma cena
+// CORTES LIMPOS - apenas os melhores takes, sem repetições
 const CUTS: CutType[] = [
-  // INTRO - Hook forte
+  // === INTRO: Hook ===
+  // "Essa ferramenta faz o trabalho de 10 pessoas..."
   {
-    srcStart: 13,
+    srcStart: 13.5,
     srcEnd: 22,
     zoom: 1.15,
     zoomTarget: "face",
     transition: "fade",
   },
 
-  // "faz o trabalho de 10 pessoas" - zoom dramático
+  // "O nome da ferramenta se chama Gens Park..." - zoom dramático
   {
     srcStart: 22,
-    srcEnd: 30,
-    zoom: 1.4,
-    zoomTarget: "face",
-    transition: "zoom-in",
-  },
-
-  // "1 bilhão de dólares" + competindo com maiores
-  {
-    srcStart: 30,
-    srcEnd: 42,
-    zoom: 1.0,
-    transition: "cut",
-  },
-
-  // "vou te mostrar o poder real" - zoom in + b-roll interface
-  {
-    srcStart: 42,
-    srcEnd: 52,
-    zoom: 1.3,
+    srcEnd: 32,
+    zoom: 1.35,
     zoomTarget: "face",
     transition: "zoom-in",
     broll: "videos/broll/broll-02-interface.mp4",
-    brollStart: 3,
+    brollStart: 2,
     brollDuration: 4,
   },
 
-  // CENÁRIO 1: Lançar negócio do zero
+  // "E ela já está competindo... vou te mostrar o poder real"
   {
-    srcStart: 52,
-    srcEnd: 65,
+    srcStart: 34,
+    srcEnd: 43,
     zoom: 1.0,
     transition: "fade",
   },
 
-  // Cenário 1: pesquisa, referências + b-roll equipe
+  // === CENÁRIO 1: Negócio do zero ===
+  // "Imagina que você vai lançar um negócio do zero..."
   {
-    srcStart: 65,
-    srcEnd: 78,
-    zoom: 1.2,
+    srcStart: 51,
+    srcEnd: 63,
+    zoom: 1.1,
     zoomTarget: "face",
-    broll: "videos/broll/broll-01-equipe.mp4",
-    brollStart: 1,
-    brollDuration: 3,
+    transition: "zoom-in",
   },
 
-  // "Logo, cores, cartões" + b-roll app
+  // "Ela faz a pesquisa, vai buscar referências..."
   {
-    srcStart: 78,
-    srcEnd: 85,
-    zoom: 1.35,
+    srcStart: 63,
+    srcEnd: 71,
+    zoom: 1.25,
+    zoomTarget: "face",
+    broll: "videos/broll/broll-01-equipe.mp4",
+    brollStart: 0.5,
+    brollDuration: 3.5,
+  },
+
+  // "Logo, cores, cartões de visita... Tudo feito automaticamente"
+  {
+    srcStart: 71,
+    srcEnd: 77,
+    zoom: 1.4,
     zoomTarget: "face",
     transition: "zoom-in",
     broll: "videos/broll/broll-04-app.mp4",
-    brollStart: 1,
-    brollDuration: 4,
+    brollStart: 0.5,
+    brollDuration: 3,
   },
 
-  // CENÁRIO 2: Website completo + b-roll demo
+  // === CENÁRIO 2: Website ===
+  // "Cenário 2. Eu peço para ela criar um website completo"
+  // (pula a repetição 85-92s que é take repetido do intro)
   {
-    srcStart: 93,
-    srcEnd: 108,
+    srcStart: 92,
+    srcEnd: 103,
     zoom: 1.0,
     transition: "fade",
     broll: "videos/broll/broll-03-demo.mp4",
     brollStart: 1,
-    brollDuration: 5,
+    brollDuration: 4,
   },
 
-  // CENÁRIO 3: Apresentação / Pitch deck + b-roll demos
+  // === CENÁRIO 3: Pitch deck ===
+  // Melhor take: "E o cenário 3... fazer a apresentação para investidores"
+  // (pula takes repetidos em 108-117 e 135-152)
   {
     srcStart: 118,
-    srcEnd: 136,
+    srcEnd: 130,
     zoom: 1.15,
     zoomTarget: "face",
-    transition: "fade",
+    transition: "zoom-in",
     broll: "videos/broll/broll-05-demos.mp4",
     brollStart: 1,
-    brollDuration: 5,
+    brollDuration: 4,
   },
 
-  // CENÁRIO 4: Clientes chegando + b-roll features
+  // === CENÁRIO 4: Automação de clientes ===
+  // Melhor take: "Imagina que estão chegando muitos clientes..."
+  // (pula todos os takes repetidos de 153-184)
   {
     srcStart: 185,
-    srcEnd: 205,
+    srcEnd: 200,
     zoom: 1.0,
     transition: "fade",
     broll: "videos/broll/broll-06-features.mp4",
-    brollStart: 1,
+    brollStart: 0.5,
     brollDuration: 5,
   },
 
-  // ENCERRAMENTO: workspace de IA, CTA
+  // === ENCERRAMENTO ===
+  // "E não acaba aí... ela cria imagens, vídeos, design..."
+  // (melhor take, pula repetições 221-238)
   {
-    srcStart: 222,
-    srcEnd: 245,
+    srcStart: 204,
+    srcEnd: 220,
     zoom: 1.2,
     zoomTarget: "face",
     transition: "fade",
   },
 
-  // CTA final - "Quer testar? Comenta"
+  // "Isso sim é um workspace de IA sério... 100% gratuito"
   {
-    srcStart: 245,
-    srcEnd: 260,
+    srcStart: 239,
+    srcEnd: 252,
+    zoom: 1.1,
+    transition: "zoom-in",
+  },
+
+  // CTA final: "Quer testar? Comenta aí"
+  {
+    srcStart: 252,
+    srcEnd: 259,
     zoom: 1.4,
     zoomTarget: "face",
     transition: "zoom-in",
@@ -171,11 +173,7 @@ function buildTimeline() {
   return CUTS.map((cut) => {
     const durationSec = cut.srcEnd - cut.srcStart;
     const durationFrames = Math.round(durationSec * FPS);
-    const entry = {
-      ...cut,
-      startFrame: currentFrame,
-      durationFrames,
-    };
+    const entry = { ...cut, startFrame: currentFrame, durationFrames };
     currentFrame += durationFrames;
     return entry;
   });
@@ -199,14 +197,13 @@ const ZoomVideo: React.FC<{
 }> = ({ src, startFrom, zoom, zoomTarget, durationFrames, transition }) => {
   const frame = useCurrentFrame();
 
-  // Zoom animado com spring
+  // Zoom animado
   const zoomProgress = spring({
     frame,
     fps: FPS,
     config: { damping: 20, stiffness: 80 },
     durationInFrames: 20,
   });
-
   const currentZoom = interpolate(zoomProgress, [0, 1], [1, zoom]);
 
   // Posição do zoom
@@ -218,22 +215,20 @@ const ZoomVideo: React.FC<{
   // Transição de entrada
   let opacity = 1;
   if (transition === "fade") {
-    opacity = interpolate(frame, [0, 8], [0, 1], {
-      extrapolateRight: "clamp",
-    });
+    opacity = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
   }
 
-  // Zoom-in entrance effect
+  // Zoom-in entrance
   let entranceScale = 1;
   if (transition === "zoom-in") {
-    entranceScale = interpolate(frame, [0, 10], [1.1, 1], {
+    entranceScale = interpolate(frame, [0, 10], [1.08, 1], {
       extrapolateRight: "clamp",
       easing: Easing.out(Easing.cubic),
     });
   }
 
-  // Slow Ken Burns drift
-  const drift = interpolate(frame, [0, durationFrames], [0, 2], {
+  // Ken Burns drift sutil
+  const drift = interpolate(frame, [0, durationFrames], [0, 1.5], {
     extrapolateRight: "clamp",
   });
 
@@ -254,57 +249,54 @@ const ZoomVideo: React.FC<{
   );
 };
 
-/** Overlay de B-roll com entrada/saída */
+/** B-roll overlay com animação de PiP (picture-in-picture) */
 const BRollOverlay: React.FC<{
   src: string;
   startSec: number;
   durationSec: number;
-  parentDurationFrames: number;
-}> = ({ src, startSec, durationSec, parentDurationFrames }) => {
+}> = ({ src, startSec, durationSec }) => {
   const frame = useCurrentFrame();
   const startFrame = Math.round(startSec * FPS);
   const durationFrames = Math.round(durationSec * FPS);
   const endFrame = startFrame + durationFrames;
 
-  // Só mostra no intervalo correto
   if (frame < startFrame || frame > endFrame) return null;
 
   const localFrame = frame - startFrame;
 
-  // Animação de entrada (scale + fade)
+  // Entrada suave
   const enterProgress = spring({
     frame: localFrame,
     fps: FPS,
     config: { damping: 15, stiffness: 100 },
-    durationInFrames: 12,
+    durationInFrames: 15,
   });
 
-  // Fade out nos últimos 8 frames
+  // Saída suave
   const fadeOut = interpolate(
     localFrame,
-    [durationFrames - 8, durationFrames],
+    [durationFrames - 10, durationFrames],
     [1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
-  const scale = interpolate(enterProgress, [0, 1], [0.85, 1]);
+  const scale = interpolate(enterProgress, [0, 1], [0.8, 1]);
 
   return (
     <AbsoluteFill
       style={{
         opacity: enterProgress * fadeOut,
         transform: `scale(${scale})`,
-        borderRadius: 16,
+        borderRadius: 20,
         overflow: "hidden",
       }}
     >
-      {/* Borda decorativa */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          border: "3px solid rgba(255,255,255,0.15)",
-          borderRadius: 16,
+          border: "3px solid rgba(255,255,255,0.2)",
+          borderRadius: 20,
           zIndex: 2,
           pointerEvents: "none",
         }}
@@ -321,25 +313,20 @@ const BRollOverlay: React.FC<{
   );
 };
 
-/** Flash branco entre cortes para efeito dinâmico */
+/** Flash branco entre cortes */
 const CutFlash: React.FC = () => {
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 3], [0.6, 0], {
+  const opacity = interpolate(frame, [0, 4], [0.5, 0], {
     extrapolateRight: "clamp",
   });
-
   return (
     <AbsoluteFill
-      style={{
-        backgroundColor: "#fff",
-        opacity,
-        pointerEvents: "none",
-      }}
+      style={{ backgroundColor: "#fff", opacity, pointerEvents: "none" }}
     />
   );
 };
 
-/** Barra de progresso no topo (estilo Reels) */
+/** Barra de progresso estilo Stories */
 const ProgressBar: React.FC<{
   totalFrames: number;
   segments: number;
@@ -354,7 +341,7 @@ const ProgressBar: React.FC<{
     <div
       style={{
         position: "absolute",
-        top: 40,
+        top: 50,
         left: 24,
         right: 24,
         display: "flex",
@@ -392,14 +379,15 @@ const ProgressBar: React.FC<{
   );
 };
 
-/** Legendas estilo Reels com highlight */
+/** Legendas estilo Reels - melhor espaçamento */
 const ReelsCaption: React.FC<{
   words: CaptionWord[];
   currentTimeMs: number;
-  wordsPerGroup?: number;
-}> = ({ words, currentTimeMs, wordsPerGroup = 4 }) => {
+}> = ({ words, currentTimeMs }) => {
   const frame = useCurrentFrame();
 
+  // Agrupa em grupos de 3 palavras (mais espaçado)
+  const wordsPerGroup = 3;
   const groups: CaptionWord[][] = [];
   for (let i = 0; i < words.length; i += wordsPerGroup) {
     groups.push(words.slice(i, i + wordsPerGroup));
@@ -408,7 +396,7 @@ const ReelsCaption: React.FC<{
   const activeGroup = groups.find((group) => {
     const groupStart = group[0].startMs;
     const groupEnd = group[group.length - 1].endMs;
-    return currentTimeMs >= groupStart - 100 && currentTimeMs <= groupEnd + 200;
+    return currentTimeMs >= groupStart - 50 && currentTimeMs <= groupEnd + 150;
   });
 
   if (!activeGroup) return null;
@@ -416,7 +404,7 @@ const ReelsCaption: React.FC<{
   const groupStart = activeGroup[0].startMs;
   const entryProgress = interpolate(
     currentTimeMs,
-    [groupStart - 100, groupStart + 100],
+    [groupStart - 50, groupStart + 150],
     [0, 1],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
@@ -426,7 +414,7 @@ const ReelsCaption: React.FC<{
       style={{
         justifyContent: "flex-end",
         alignItems: "center",
-        paddingBottom: 180,
+        paddingBottom: 200,
       }}
     >
       <div
@@ -434,10 +422,10 @@ const ReelsCaption: React.FC<{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: 8,
-          maxWidth: "85%",
+          gap: 12,
+          maxWidth: "80%",
           opacity: entryProgress,
-          transform: `translateY(${(1 - entryProgress) * 15}px)`,
+          transform: `translateY(${(1 - entryProgress) * 12}px)`,
         }}
       >
         {activeGroup.map((word, i) => {
@@ -449,20 +437,21 @@ const ReelsCaption: React.FC<{
             <span
               key={`${word.startMs}-${i}`}
               style={{
-                fontSize: 58,
+                fontSize: 54,
                 fontWeight: 800,
                 fontFamily: "system-ui, -apple-system, sans-serif",
                 color: isActive
                   ? "#FFFFFF"
                   : isPast
-                    ? "#FFFFFF"
-                    : "rgba(255,255,255,0.45)",
+                    ? "rgba(255,255,255,0.85)"
+                    : "rgba(255,255,255,0.4)",
                 textShadow: isActive
-                  ? "0 0 20px rgba(59,130,246,0.6), 0 2px 10px rgba(0,0,0,0.9)"
+                  ? "0 0 25px rgba(59,130,246,0.5), 0 2px 10px rgba(0,0,0,0.9)"
                   : "0 2px 8px rgba(0,0,0,0.9)",
-                transform: isActive ? "scale(1.12)" : "scale(1)",
-                transition: "all 0.12s ease-out",
+                transform: isActive ? "scale(1.1)" : "scale(1)",
+                transition: "all 0.1s ease-out",
                 textTransform: "lowercase",
+                letterSpacing: "0.5px",
               }}
             >
               {word.text}
@@ -481,7 +470,7 @@ const ReelsCaption: React.FC<{
 export const VideoEditado: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Encontrar o corte ativo baseado no frame atual
+  // Encontrar corte ativo
   let activeTimeline = TIMELINE[0];
   for (const t of TIMELINE) {
     if (frame >= t.startFrame && frame < t.startFrame + t.durationFrames) {
@@ -490,22 +479,21 @@ export const VideoEditado: React.FC = () => {
     }
   }
 
-  // Calcular o tempo no vídeo original para as legendas
+  // Tempo no vídeo original para sincronizar legendas
   const localFrame = frame - activeTimeline.startFrame;
   const currentSrcTime = activeTimeline.srcStart + localFrame / FPS;
   const currentTimeMs = currentSrcTime * 1000;
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      {/* Renderizar cada corte como uma Sequence */}
+      {/* Renderizar cada corte */}
       {TIMELINE.map((cut, i) => (
         <Sequence
           key={i}
           from={cut.startFrame}
           durationInFrames={cut.durationFrames}
-          name={`Cena ${i + 1} (${cut.srcStart}s-${cut.srcEnd}s)`}
+          name={`Cena ${i + 1}`}
         >
-          {/* Vídeo principal com zoom */}
           <ZoomVideo
             src="videos/video-original.mp4"
             startFrom={cut.srcStart}
@@ -515,36 +503,29 @@ export const VideoEditado: React.FC = () => {
             transition={cut.transition ?? "cut"}
           />
 
-          {/* B-roll overlay */}
           {cut.broll && (
             <BRollOverlay
               src={cut.broll}
               startSec={cut.brollStart ?? 0}
               durationSec={cut.brollDuration ?? 3}
-              parentDurationFrames={cut.durationFrames}
             />
           )}
 
-          {/* Flash de corte */}
           {cut.transition === "zoom-in" && <CutFlash />}
         </Sequence>
       ))}
 
-      {/* Legendas - sempre por cima */}
-      <ReelsCaption
-        words={captions}
-        currentTimeMs={currentTimeMs}
-        wordsPerGroup={4}
-      />
+      {/* Legendas */}
+      <ReelsCaption words={captions} currentTimeMs={currentTimeMs} />
 
-      {/* Barra de progresso no topo */}
+      {/* Barra de progresso */}
       <ProgressBar totalFrames={TOTAL_FRAMES} segments={TIMELINE.length} />
 
-      {/* Vinheta escura nas bordas */}
+      {/* Vinheta */}
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%)",
+            "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%)",
           pointerEvents: "none",
         }}
       />
