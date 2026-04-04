@@ -67,13 +67,16 @@ const CUTS: CutType[] = [
     transition: "cut",
   },
 
-  // "vou te mostrar o poder real" - zoom in
+  // "vou te mostrar o poder real" - zoom in + b-roll interface
   {
     srcStart: 42,
     srcEnd: 52,
     zoom: 1.3,
     zoomTarget: "face",
     transition: "zoom-in",
+    broll: "videos/broll/broll-02-interface.mp4",
+    brollStart: 3,
+    brollDuration: 4,
   },
 
   // CENÁRIO 1: Lançar negócio do zero
@@ -84,46 +87,61 @@ const CUTS: CutType[] = [
     transition: "fade",
   },
 
-  // Cenário 1: pesquisa, referências, identidade visual
+  // Cenário 1: pesquisa, referências + b-roll equipe
   {
     srcStart: 65,
     srcEnd: 78,
     zoom: 1.2,
     zoomTarget: "face",
+    broll: "videos/broll/broll-01-equipe.mp4",
+    brollStart: 1,
+    brollDuration: 3,
   },
 
-  // "Logo, cores, cartões"
+  // "Logo, cores, cartões" + b-roll app
   {
     srcStart: 78,
     srcEnd: 85,
     zoom: 1.35,
     zoomTarget: "face",
     transition: "zoom-in",
+    broll: "videos/broll/broll-04-app.mp4",
+    brollStart: 1,
+    brollDuration: 4,
   },
 
-  // CENÁRIO 2: Website completo
+  // CENÁRIO 2: Website completo + b-roll demo
   {
     srcStart: 93,
     srcEnd: 108,
     zoom: 1.0,
     transition: "fade",
+    broll: "videos/broll/broll-03-demo.mp4",
+    brollStart: 1,
+    brollDuration: 5,
   },
 
-  // CENÁRIO 3: Apresentação / Pitch deck
+  // CENÁRIO 3: Apresentação / Pitch deck + b-roll demos
   {
     srcStart: 118,
     srcEnd: 136,
     zoom: 1.15,
     zoomTarget: "face",
     transition: "fade",
+    broll: "videos/broll/broll-05-demos.mp4",
+    brollStart: 1,
+    brollDuration: 5,
   },
 
-  // CENÁRIO 4: Clientes chegando, automação
+  // CENÁRIO 4: Clientes chegando + b-roll features
   {
     srcStart: 185,
     srcEnd: 205,
     zoom: 1.0,
     transition: "fade",
+    broll: "videos/broll/broll-06-features.mp4",
+    brollStart: 1,
+    brollDuration: 5,
   },
 
   // ENCERRAMENTO: workspace de IA, CTA

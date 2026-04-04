@@ -9,6 +9,9 @@ whisper.cpp/
 *.mkv
 *.wav
 *.mp3
+
+# Exceção: b-roll pequenos podem ir no git
+!public/videos/broll/*.mp4
 .DS_Store
 .env
 .env.local
