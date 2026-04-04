@@ -117,7 +117,7 @@ export const VideoEditado: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       {/* Vídeo principal */}
       <OffthreadVideo
-        src={staticFile("videos/video.mp4")}
+        src={staticFile("videos/video-1080.mp4")}
         style={{
           width: "100%",
           height: "100%",
