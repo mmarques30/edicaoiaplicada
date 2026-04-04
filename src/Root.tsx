@@ -1,7 +1,9 @@
 import React from "react";
 import { Composition } from "remotion";
 import { ExampleVideo } from "./compositions/ExampleVideo";
+import { VideoEditado } from "./compositions/VideoEditado";
 import { PRESETS } from "./presets";
+import { secondsToFrames } from "./utils/timing";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -34,6 +36,16 @@ export const RemotionRoot: React.FC = () => {
         fps={PRESETS.square.fps}
         width={PRESETS.square.width}
         height={PRESETS.square.height}
+      />
+
+      {/* Vídeo editado estilo Reels - 4:20 a 30fps = 7803 frames */}
+      <Composition
+        id="VideoEditado"
+        component={VideoEditado}
+        durationInFrames={secondsToFrames(260)}
+        fps={PRESETS.portrait.fps}
+        width={PRESETS.portrait.width}
+        height={PRESETS.portrait.height}
       />
 
       {/*
