@@ -41,7 +41,7 @@ type CutType = {
 
 // Timeline de edição - cada entrada é uma cena
 const CUTS: CutType[] = [
-  // INTRO - Hook forte (0s-14s do original, mas começamos no 13s quando fala)
+  // INTRO - Hook forte
   {
     srcStart: 13,
     srcEnd: 22,
@@ -74,9 +74,6 @@ const CUTS: CutType[] = [
     zoom: 1.3,
     zoomTarget: "face",
     transition: "zoom-in",
-    broll: "videos/broll/broll-02-interface.mp4",
-    brollStart: 3,
-    brollDuration: 4,
   },
 
   // CENÁRIO 1: Lançar negócio do zero
@@ -93,21 +90,15 @@ const CUTS: CutType[] = [
     srcEnd: 78,
     zoom: 1.2,
     zoomTarget: "face",
-    broll: "videos/broll/broll-01-equipe.mp4",
-    brollStart: 1,
-    brollDuration: 3,
   },
 
-  // "Logo, cores, cartões" - B-roll de demonstração
+  // "Logo, cores, cartões"
   {
     srcStart: 78,
     srcEnd: 85,
     zoom: 1.35,
     zoomTarget: "face",
     transition: "zoom-in",
-    broll: "videos/broll/broll-04-app.mp4",
-    brollStart: 1,
-    brollDuration: 4,
   },
 
   // CENÁRIO 2: Website completo
@@ -116,9 +107,6 @@ const CUTS: CutType[] = [
     srcEnd: 108,
     zoom: 1.0,
     transition: "fade",
-    broll: "videos/broll/broll-03-demo.mp4",
-    brollStart: 1,
-    brollDuration: 5,
   },
 
   // CENÁRIO 3: Apresentação / Pitch deck
@@ -128,9 +116,6 @@ const CUTS: CutType[] = [
     zoom: 1.15,
     zoomTarget: "face",
     transition: "fade",
-    broll: "videos/broll/broll-05-demos.mp4",
-    brollStart: 1,
-    brollDuration: 5,
   },
 
   // CENÁRIO 4: Clientes chegando, automação
@@ -139,9 +124,6 @@ const CUTS: CutType[] = [
     srcEnd: 205,
     zoom: 1.0,
     transition: "fade",
-    broll: "videos/broll/broll-06-features.mp4",
-    brollStart: 1,
-    brollDuration: 5,
   },
 
   // ENCERRAMENTO: workspace de IA, CTA
