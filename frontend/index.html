@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Vídeo com IA</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 24px 32px;
+      border-bottom: 1px solid #333;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .header p {
+      color: #999;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 32px;
+    }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    /* Video Player */
+    .video-area {
+      position: relative;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 9/16;
+      max-height: 70vh;
+      margin: 0 auto;
+    }
+
+    .video-area video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .no-video {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #666;
+      font-size: 16px;
+      text-align: center;
+      padding: 32px;
+    }
+
+    /* Controls */
+    .render-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px 16px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    select:focus, input:focus {
+      border-color: #3b82f6;
+    }
+
+    label {
+      font-size: 13px;
+      color: #999;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      background: #333;
+      color: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    /* Progress */
+    .progress-container {
+      display: none;
+    }
+
+    .progress-container.active {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: #999;
+    }
+
+    /* Video List */
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #222;
+      border-radius: 8px;
+      border: 1px solid #333;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .video-item:hover {
+      border-color: #3b82f6;
+    }
+
+    .video-item.active {
+      border-color: #3b82f6;
+      background: #1e293b;
+    }
+
+    .video-info {
+      flex: 1;
+    }
+
+    .video-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .video-meta {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .video-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-idle { background: #333; color: #999; }
+    .status-rendering { background: #1e3a5f; color: #60a5fa; }
+    .status-done { background: #14532d; color: #4ade80; }
+    .status-error { background: #450a0a; color: #f87171; }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px;
+      color: #666;
+    }
+
+    .section-gap { margin-top: 24px; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Editor de Video com IA</h1>
+    <p>Renderize e baixe seus videos editados</p>
+  </div>
+
+  <div class="container">
+    <!-- Coluna esquerda: Preview do vídeo -->
+    <div>
+      <div class="card">
+        <h2>Preview</h2>
+        <div class="video-area" id="videoArea">
+          <div class="no-video" id="noVideo">
+            Selecione um video renderizado<br>ou renderize um novo
+          </div>
+          <video id="videoPlayer" controls style="display:none"></video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna direita: Controles -->
+    <div>
+      <!-- Renderizar -->
+      <div class="card render-section">
+        <h2>Renderizar Video</h2>
+
+        <div>
+          <label>Composicao</label>
+          <select id="compositionSelect">
+            <option value="VideoEditado">VideoEditado</option>
+            <option value="ExampleVideo">ExampleVideo</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Nome do arquivo (opcional)</label>
+          <input type="text" id="outputName" placeholder="ex: meu-video-editado.mp4">
+        </div>
+
+        <div>
+          <span class="status-badge status-idle" id="statusBadge">Pronto</span>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text" id="progressText">Preparando...</div>
+        </div>
+
+        <button class="btn btn-primary" id="renderBtn" onclick="startRender()">
+          Renderizar Video
+        </button>
+      </div>
+
+      <!-- Vídeos renderizados -->
+      <div class="card section-gap">
+        <h2>Videos Renderizados</h2>
+        <div class="video-list" id="videoList">
+          <div class="empty-state">Nenhum video renderizado ainda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = '';
+
+    // Carregar composições
+    async function loadCompositions() {
+      try {
+        const res = await fetch(`${API}/api/compositions`);
+        const data = await res.json();
+        const select = document.getElementById('compositionSelect');
+        select.innerHTML = data.compositions
+          .map(c => `<option value="${c}">${c}</option>`)
+          .join('');
+      } catch (e) {
+        console.error('Erro ao carregar composicoes:', e);
+      }
+    }
+
+    // Carregar vídeos renderizados
+    async function loadRendered() {
+      try {
+        const res = await fetch(`${API}/api/rendered`);
+        const data = await res.json();
+        const list = document.getElementById('videoList');
+
+        if (data.files.length === 0) {
+          list.innerHTML = '<div class="empty-state">Nenhum video renderizado ainda</div>';
+          return;
+        }
+
+        list.innerHTML = data.files.map(f => `
+          <div class="video-item" onclick="playVideo('${f.url}', '${f.name}', this)">
+            <div class="video-info">
+              <div class="video-name">${f.name}</div>
+              <div class="video-meta">${f.size} - ${new Date(f.date).toLocaleString('pt-BR')}</div>
+            </div>
+            <div class="video-actions">
+              <a href="${f.url}" download="${f.name}" class="btn btn-success btn-small" onclick="event.stopPropagation()">
+                Baixar
+              </a>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Erro ao carregar videos:', e);
+      }
+    }
+
+    // Reproduzir vídeo
+    function playVideo(url, name, element) {
+      const player = document.getElementById('videoPlayer');
+      const noVideo = document.getElementById('noVideo');
+
+      player.src = url;
+      player.style.display = 'block';
+      noVideo.style.display = 'none';
+      player.play();
+
+      // Highlight ativo
+      document.querySelectorAll('.video-item').forEach(el => el.classList.remove('active'));
+      if (element) element.classList.add('active');
+    }
+
+    // Iniciar renderização
+    async function startRender() {
+      const compositionId = document.getElementById('compositionSelect').value;
+      let outputName = document.getElementById('outputName').value.trim();
+
+      if (outputName && !outputName.endsWith('.mp4')) {
+        outputName += '.mp4';
+      }
+
+      try {
+        const res = await fetch(`${API}/api/render`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ compositionId, outputName: outputName || undefined }),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          alert(err.error || 'Erro ao iniciar render');
+          return;
+        }
+
+        document.getElementById('renderBtn').disabled = true;
+        document.getElementById('progressContainer').classList.add('active');
+
+        // Polling do status
+        pollStatus();
+      } catch (e) {
+        alert('Erro ao conectar com o servidor');
+      }
+    }
+
+    // Poll status
+    async function pollStatus() {
+      try {
+        const res = await fetch(`${API}/api/status`);
+        const data = await res.json();
+
+        const badge = document.getElementById('statusBadge');
+        const progress = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const btn = document.getElementById('renderBtn');
+        const progressContainer = document.getElementById('progressContainer');
+
+        badge.className = `status-badge status-${data.status}`;
+
+        switch (data.status) {
+          case 'rendering':
+            badge.textContent = 'Renderizando...';
+            progress.style.width = `${data.progress}%`;
+            progressText.textContent = data.message;
+            progressContainer.classList.add('active');
+            btn.disabled = true;
+            setTimeout(pollStatus, 1000);
+            break;
+
+          case 'done':
+            badge.textContent = 'Concluido!';
+            progress.style.width = '100%';
+            progressText.textContent = data.message;
+            btn.disabled = false;
+            btn.textContent = 'Renderizar Video';
+
+            // Recarregar lista e tocar o vídeo
+            await loadRendered();
+            if (data.outputFile) {
+              playVideo(data.outputFile, data.message, null);
+            }
+
+            // Reset após 3 segundos
+            setTimeout(async () => {
+              await fetch(`${API}/api/reset`, { method: 'POST' });
+              progressContainer.classList.remove('active');
+              badge.className = 'status-badge status-idle';
+              badge.textContent = 'Pronto';
+            }, 3000);
+            break;
+
+          case 'error':
+            badge.textContent = 'Erro';
+            progressText.textContent = data.message;
+            btn.disabled = false;
+
+            setTimeout(async () => {
+              await fetch(`${API}/api/reset`, { method: 'POST' });
+              progressContainer.classList.remove('active');
+              badge.className = 'status-badge status-idle';
+              badge.textContent = 'Pronto';
+            }, 5000);
+            break;
+
+          default:
+            badge.textContent = 'Pronto';
+            btn.disabled = false;
+            progressContainer.classList.remove('active');
+        }
+      } catch (e) {
+        console.error('Erro no polling:', e);
+        setTimeout(pollStatus, 2000);
+      }
+    }
+
+    // Inicializar
+    loadCompositions();
+    loadRendered();
+
+    // Atualizar lista a cada 10 segundos
+    setInterval(loadRendered, 10000);
+  </script>
+</body>
+</html>
