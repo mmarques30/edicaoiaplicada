@@ -38,11 +38,11 @@ export const RemotionRoot: React.FC = () => {
         height={PRESETS.square.height}
       />
 
-      {/* Vídeo editado estilo Reels - 4:20 a 30fps = 7803 frames */}
+      {/* Vídeo editado estilo Reels - cortes dinâmicos + zoom + b-roll */}
       <Composition
         id="VideoEditado"
         component={VideoEditado}
-        durationInFrames={secondsToFrames(260)}
+        durationInFrames={4890}
         fps={PRESETS.portrait.fps}
         width={PRESETS.portrait.width}
         height={PRESETS.portrait.height}
