@@ -18,7 +18,7 @@ type CaptionWord = { text: string; startMs: number; endMs: number };
 const captions = captionsData as CaptionWord[];
 
 // ============================================================
-// EDIÇÃO: Timeline com cortes limpos (sem repetições)
+// TIMELINE DE EDIÇÃO
 // ============================================================
 
 type CutType = {
@@ -26,158 +26,161 @@ type CutType = {
   srcEnd: number;
   zoom?: number;
   zoomTarget?: "center" | "top" | "bottom" | "face";
-  broll?: string;
-  brollStart?: number;
-  brollDuration?: number;
-  /** Imagem de stock para sobrepor (caminho relativo a public/) */
-  image?: string;
-  /** Segundo de início da imagem dentro do corte */
+  /** Imagens para split-screen (alternam automaticamente) */
+  images?: string[];
+  /** Segundo onde as imagens começam dentro do corte */
   imageStart?: number;
-  /** Duração da imagem em segundos */
-  imageDuration?: number;
+  /** Título de cenário (ex: "Cenário 1") */
+  scenarioTitle?: string;
+  /** Subtítulo do cenário */
+  scenarioSubtitle?: string;
   transition?: "cut" | "fade" | "zoom-in";
 };
 
-// CORTES LIMPOS - apenas os melhores takes, sem repetições
 const CUTS: CutType[] = [
-  // === INTRO: Hook ===
+  // === INTRO ===
   // "Essa ferramenta faz o trabalho de 10 pessoas..."
   {
     srcStart: 13.5,
-    srcEnd: 22,
+    srcEnd: 22.8,
     zoom: 1.15,
     zoomTarget: "face",
     transition: "fade",
   },
 
-  // "O nome da ferramenta se chama Gens Park..." - zoom dramático
+  // "Gens Park... equipe de 30 pessoas... 1 bilhão de dólares"
+  // (pula "O nome da ferramenta se chama" para evitar repetir "ferramenta")
   {
-    srcStart: 22,
-    srcEnd: 32,
+    srcStart: 24.3,
+    srcEnd: 32.3,
     zoom: 1.35,
     zoomTarget: "face",
-    transition: "zoom-in",
-    image: "images/ai-tool.jpg",
-    imageStart: 3,
-    imageDuration: 4,
+    transition: "fade",
+    images: ["images/genspark.jpg", "images/genspark-team.jpg"],
+    imageStart: 0,
   },
 
-  // "E ela já está competindo... vou te mostrar o poder real"
+  // "Já está competindo... vou te mostrar o poder real"
   {
     srcStart: 34,
     srcEnd: 43,
     zoom: 1.0,
     transition: "fade",
+    images: ["images/ai-tool.jpg", "images/genspark-dashboard.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 1: Negócio do zero ===
-  // "Imagina que você vai lançar um negócio do zero..."
+  // "vai lançar um negócio do zero..." (pula pausa/silêncio de 51-54.5s)
   {
-    srcStart: 51,
-    srcEnd: 63,
+    srcStart: 54.5,
+    srcEnd: 62.5,
     zoom: 1.1,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
+    scenarioTitle: "Cenário 1",
+    scenarioSubtitle: "Negócio do Zero",
+    images: ["images/genspark-branding.jpg", "images/genspark-design2.jpg"],
+    imageStart: 0,
   },
 
-  // "Ela faz a pesquisa, vai buscar referências..."
+  // "faz a pesquisa, busca referências..." (pula "Ela" do início)
   {
-    srcStart: 63,
-    srcEnd: 71,
+    srcStart: 63.2,
+    srcEnd: 71.5,
     zoom: 1.25,
     zoomTarget: "face",
-    image: "images/branding-mockup.jpg",
-    imageStart: 1,
-    imageDuration: 3.5,
+    transition: "fade",
+    images: ["images/genspark-tshirt.jpg", "images/design-tools.jpg", "images/genspark-design4.jpg"],
+    imageStart: 0,
   },
 
-  // "Logo, cores, cartões de visita... Tudo feito automaticamente"
+  // "Logo, cores, cartões... Tudo feito automaticamente"
   {
-    srcStart: 71,
-    srcEnd: 77,
+    srcStart: 71.5,
+    srcEnd: 78.5,
     zoom: 1.4,
     zoomTarget: "face",
-    transition: "zoom-in",
-    image: "images/design-tools.jpg",
-    imageStart: 0.5,
-    imageDuration: 3,
+    transition: "fade",
+    images: ["images/branding-mockup.jpg", "images/genspark-design2.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 2: Website ===
-  // "Cenário 2. Eu peço para ela criar um website completo"
-  // (pula a repetição 85-92s que é take repetido do intro)
   {
     srcStart: 92,
-    srcEnd: 103,
+    srcEnd: 103.5,
     zoom: 1.0,
     transition: "fade",
-    image: "images/website-mockup.jpg",
-    imageStart: 2,
-    imageDuration: 4,
+    scenarioTitle: "Cenário 2",
+    scenarioSubtitle: "Website Profissional",
+    images: ["images/genspark-site.jpg", "images/website-mockup.jpg", "images/genspark-dashboard.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 3: Pitch deck ===
-  // Melhor take: "E o cenário 3... fazer a apresentação para investidores"
-  // (pula takes repetidos em 108-117 e 135-152)
   {
     srcStart: 118,
     srcEnd: 130,
     zoom: 1.15,
     zoomTarget: "face",
-    transition: "zoom-in",
-    image: "images/pitch-deck.jpg",
-    imageStart: 2,
-    imageDuration: 4,
+    transition: "fade",
+    scenarioTitle: "Cenário 3",
+    scenarioSubtitle: "Pitch Deck",
+    images: ["images/genspark-pitch.jpg", "images/pitch-deck.jpg", "images/genspark-slides-compare.jpg"],
+    imageStart: 0,
   },
 
-  // === CENÁRIO 4: Automação de clientes ===
-  // Melhor take: "Imagina que estão chegando muitos clientes..."
-  // (pula todos os takes repetidos de 153-184)
+  // === CENÁRIO 4: Automação clientes ===
   {
     srcStart: 185,
     srcEnd: 200,
     zoom: 1.0,
     transition: "fade",
-    image: "images/email-dashboard.jpg",
-    imageStart: 1,
-    imageDuration: 5,
+    scenarioTitle: "Cenário 4",
+    scenarioSubtitle: "Automação de Clientes",
+    images: ["images/genspark-email.jpg", "images/email-dashboard.jpg", "images/ai-tool.jpg"],
+    imageStart: 0,
   },
 
   // === ENCERRAMENTO ===
-  // "E não acaba aí... ela cria imagens, vídeos, design..."
-  // (melhor take, pula repetições 221-238)
+  // "Gens Park, ela cria imagens, vídeos, design, Excel... tudo ligado"
   {
-    srcStart: 204,
-    srcEnd: 220,
+    srcStart: 207,
+    srcEnd: 214.7,
     zoom: 1.2,
     zoomTarget: "face",
     transition: "fade",
-    image: "images/ai-workspace.jpg",
-    imageStart: 2,
-    imageDuration: 5,
+    images: [
+      "images/genspark-design2.jpg",
+      "images/genspark.jpg",
+      "images/ai-workspace.jpg",
+    ],
+    imageStart: 0,
   },
 
-  // "Isso sim é um workspace de IA sério... 100% gratuito"
+  // "Onde você pode usar todas as coisas em um só lugar... 100% gratuito"
   {
-    srcStart: 239,
+    srcStart: 243.5,
     srcEnd: 252,
     zoom: 1.1,
-    transition: "zoom-in",
+    transition: "fade",
+    images: ["images/genspark-dashboard.jpg", "images/genspark.jpg"],
+    imageStart: 0,
   },
 
-  // CTA final: "Quer testar? Comenta aí"
+  // CTA final: "Quer testar? Comenta aí que eu te envio o link por DM"
   {
     srcStart: 252,
-    srcEnd: 259,
+    srcEnd: 256,
     zoom: 1.4,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
   },
 ];
 
 const FPS = 30;
 
-// Calcular timeline final
 function buildTimeline() {
   let currentFrame = 0;
   return CUTS.map((cut) => {
@@ -196,7 +199,7 @@ const TOTAL_FRAMES = TIMELINE.reduce((sum, t) => sum + t.durationFrames, 0);
 // COMPONENTES
 // ============================================================
 
-/** Clip de vídeo com zoom dinâmico */
+/** Vídeo principal com zoom */
 const ZoomVideo: React.FC<{
   src: string;
   startFrom: number;
@@ -204,10 +207,11 @@ const ZoomVideo: React.FC<{
   zoomTarget: string;
   durationFrames: number;
   transition: string;
-}> = ({ src, startFrom, zoom, zoomTarget, durationFrames, transition }) => {
+  /** Se true, ocupa só metade superior (split-screen) */
+  splitMode?: boolean;
+}> = ({ src, startFrom, zoom, zoomTarget, durationFrames, transition, splitMode }) => {
   const frame = useCurrentFrame();
 
-  // Zoom animado
   const zoomProgress = spring({
     frame,
     fps: FPS,
@@ -216,34 +220,45 @@ const ZoomVideo: React.FC<{
   });
   const currentZoom = interpolate(zoomProgress, [0, 1], [1, zoom]);
 
-  // Posição do zoom
   let transformOrigin = "center center";
   if (zoomTarget === "face") transformOrigin = "center 30%";
   else if (zoomTarget === "top") transformOrigin = "center 20%";
   else if (zoomTarget === "bottom") transformOrigin = "center 80%";
 
-  // Transição de entrada
   let opacity = 1;
   if (transition === "fade") {
-    opacity = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
-  }
-
-  // Zoom-in entrance
-  let entranceScale = 1;
-  if (transition === "zoom-in") {
-    entranceScale = interpolate(frame, [0, 10], [1.08, 1], {
+    opacity = interpolate(frame, [0, 12], [0, 1], {
       extrapolateRight: "clamp",
       easing: Easing.out(Easing.cubic),
     });
   }
 
-  // Ken Burns drift sutil
+  let entranceScale = 1;
+  if (transition === "zoom-in") {
+    entranceScale = interpolate(frame, [0, 12], [1.06, 1], {
+      extrapolateRight: "clamp",
+      easing: Easing.out(Easing.cubic),
+    });
+    opacity = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
+  }
+
   const drift = interpolate(frame, [0, durationFrames], [0, 1.5], {
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill style={{ opacity }}>
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: splitMode ? "55%" : "100%",
+        overflow: "hidden",
+        opacity,
+        borderRadius: splitMode ? "0 0 20px 20px" : 0,
+      }}
+    >
       <OffthreadVideo
         src={staticFile(src)}
         startFrom={Math.round(startFrom * FPS)}
@@ -255,82 +270,211 @@ const ZoomVideo: React.FC<{
           transformOrigin,
         }}
       />
-    </AbsoluteFill>
+    </div>
   );
 };
 
-/** Imagem de stock sobreposta com animação picture-in-picture */
-const ImageOverlayStock: React.FC<{
-  src: string;
+/** Imagens alternantes em split-screen (metade inferior) */
+const SplitImages: React.FC<{
+  images: string[];
   startSec: number;
-  durationSec: number;
-}> = ({ src, startSec, durationSec }) => {
+  totalDurationFrames: number;
+}> = ({ images, startSec, totalDurationFrames }) => {
   const frame = useCurrentFrame();
   const startFrame = Math.round(startSec * FPS);
-  const durationFrames = Math.round(durationSec * FPS);
-  const endFrame = startFrame + durationFrames;
+  const endFrame = totalDurationFrames;
 
   if (frame < startFrame || frame > endFrame) return null;
 
   const localFrame = frame - startFrame;
+  const availableFrames = endFrame - startFrame;
 
-  // Entrada com spring
+  // Divide available time equally among images
+  const framesPerImage = Math.floor(availableFrames / images.length);
+  const currentImageIndex = Math.min(
+    Math.floor(localFrame / framesPerImage),
+    images.length - 1,
+  );
+  const imageLocalFrame = localFrame - currentImageIndex * framesPerImage;
+
+  // Slide up entrance (first image) or crossfade (subsequent)
+  const isFirst = currentImageIndex === 0 && localFrame < 15;
   const enterProgress = spring({
-    frame: localFrame,
+    frame: isFirst ? localFrame : imageLocalFrame,
     fps: FPS,
-    config: { damping: 12, stiffness: 120 },
-    durationInFrames: 18,
+    config: { damping: 14, stiffness: 120 },
+    durationInFrames: 12,
   });
 
-  // Saída suave
+  // Fade out at the very end
   const fadeOut = interpolate(
     localFrame,
-    [durationFrames - 12, durationFrames],
+    [availableFrames - 10, availableFrames],
     [1, 0],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
-  const scale = interpolate(enterProgress, [0, 1], [0.75, 0.85]);
+  const slideY = isFirst ? interpolate(enterProgress, [0, 1], [80, 0]) : 0;
 
-  // Ken Burns lento na imagem
-  const imgScale = interpolate(localFrame, [0, durationFrames], [1, 1.08], {
+  // Ken Burns slow zoom per image
+  const imgZoom = interpolate(imageLocalFrame, [0, framesPerImage], [1, 1.08], {
     extrapolateRight: "clamp",
   });
+
+  // Crossfade between images
+  const crossfadeIn =
+    currentImageIndex > 0
+      ? interpolate(imageLocalFrame, [0, 8], [0, 1], {
+          extrapolateRight: "clamp",
+        })
+      : 1;
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        height: "48%",
+        overflow: "hidden",
+        borderRadius: "20px 20px 0 0",
+        opacity: (isFirst ? enterProgress : crossfadeIn) * fadeOut,
+        transform: `translateY(${slideY}px)`,
+      }}
+    >
+      {/* Borda branca decorativa */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          border: "3px solid rgba(255,255,255,0.25)",
+          borderRadius: "20px 20px 0 0",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      />
+      {/* Sombra no topo */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 40,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.3), transparent)",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      />
+      <Img
+        src={staticFile(images[currentImageIndex])}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          transform: `scale(${imgZoom})`,
+        }}
+      />
+    </div>
+  );
+};
+
+/** Título de cenário com animação */
+const ScenarioTitle: React.FC<{
+  title: string;
+  subtitle?: string;
+}> = ({ title, subtitle }) => {
+  const frame = useCurrentFrame();
+
+  // Aparece por ~2 segundos (60 frames)
+  if (frame > 60) return null;
+
+  const enterScale = spring({
+    frame,
+    fps: FPS,
+    config: { damping: 12, stiffness: 150 },
+    durationInFrames: 15,
+  });
+
+  const fadeOut = interpolate(frame, [45, 60], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  const numberScale = interpolate(enterScale, [0, 1], [0.5, 1]);
+  const subtitleSlide = interpolate(
+    spring({
+      frame: Math.max(0, frame - 8),
+      fps: FPS,
+      config: { damping: 14, stiffness: 100 },
+      durationInFrames: 12,
+    }),
+    [0, 1],
+    [30, 0],
+  );
 
   return (
     <AbsoluteFill
       style={{
         justifyContent: "center",
         alignItems: "center",
-        opacity: enterProgress * fadeOut,
+        zIndex: 20,
+        opacity: fadeOut,
       }}
     >
+      {/* Background overlay escuro */}
       <div
         style={{
-          width: "85%",
-          height: "45%",
-          borderRadius: 16,
-          overflow: "hidden",
-          transform: `scale(${scale})`,
-          boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
-          border: "2px solid rgba(255,255,255,0.15)",
+          position: "absolute",
+          inset: 0,
+          background: "radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%)",
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 12,
+          transform: `scale(${numberScale})`,
+          zIndex: 21,
         }}
       >
-        <Img
-          src={staticFile(src)}
+        <span
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transform: `scale(${imgScale})`,
+            fontSize: 96,
+            fontWeight: 900,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            color: "#fff",
+            textShadow: "0 0 40px rgba(59,130,246,0.6), 0 4px 20px rgba(0,0,0,0.8)",
+            letterSpacing: "-2px",
           }}
-        />
+        >
+          {title}
+        </span>
+        {subtitle && (
+          <span
+            style={{
+              fontSize: 36,
+              fontWeight: 600,
+              fontFamily: "system-ui, -apple-system, sans-serif",
+              color: "rgba(255,255,255,0.85)",
+              textShadow: "0 2px 10px rgba(0,0,0,0.8)",
+              transform: `translateY(${subtitleSlide}px)`,
+              opacity: frame > 8 ? 1 : 0,
+            }}
+          >
+            {subtitle}
+          </span>
+        )}
       </div>
     </AbsoluteFill>
   );
 };
 
-/** Flash branco entre cortes */
+/** Flash branco */
 const CutFlash: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 4], [0.5, 0], {
@@ -343,13 +487,12 @@ const CutFlash: React.FC = () => {
   );
 };
 
-/** Barra de progresso estilo Stories */
+/** Barra de progresso */
 const ProgressBar: React.FC<{
   totalFrames: number;
   segments: number;
 }> = ({ totalFrames, segments }) => {
   const frame = useCurrentFrame();
-  const segmentWidth = 100 / segments;
   const currentSegment = Math.floor((frame / totalFrames) * segments);
   const segmentProgress =
     ((frame / totalFrames) * segments - currentSegment) * 100;
@@ -396,18 +539,14 @@ const ProgressBar: React.FC<{
   );
 };
 
-/** Legendas estilo Reels - melhor espaçamento */
+/** Legendas - 3 palavras por grupo, mais espaçado */
 const ReelsCaption: React.FC<{
   words: CaptionWord[];
   currentTimeMs: number;
 }> = ({ words, currentTimeMs }) => {
-  const frame = useCurrentFrame();
-
-  // Agrupa em grupos de 3 palavras (mais espaçado)
-  const wordsPerGroup = 3;
   const groups: CaptionWord[][] = [];
-  for (let i = 0; i < words.length; i += wordsPerGroup) {
-    groups.push(words.slice(i, i + wordsPerGroup));
+  for (let i = 0; i < words.length; i += 3) {
+    groups.push(words.slice(i, i + 3));
   }
 
   const activeGroup = groups.find((group) => {
@@ -454,7 +593,7 @@ const ReelsCaption: React.FC<{
             <span
               key={`${word.startMs}-${i}`}
               style={{
-                fontSize: 54,
+                fontSize: 52,
                 fontWeight: 800,
                 fontFamily: "system-ui, -apple-system, sans-serif",
                 color: isActive
@@ -496,41 +635,54 @@ export const VideoEditado: React.FC = () => {
     }
   }
 
-  // Tempo no vídeo original para sincronizar legendas
   const localFrame = frame - activeTimeline.startFrame;
   const currentSrcTime = activeTimeline.srcStart + localFrame / FPS;
   const currentTimeMs = currentSrcTime * 1000;
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      {/* Renderizar cada corte */}
-      {TIMELINE.map((cut, i) => (
-        <Sequence
-          key={i}
-          from={cut.startFrame}
-          durationInFrames={cut.durationFrames}
-          name={`Cena ${i + 1}`}
-        >
-          <ZoomVideo
-            src="videos/video-original.mp4"
-            startFrom={cut.srcStart}
-            zoom={cut.zoom ?? 1}
-            zoomTarget={cut.zoomTarget ?? "center"}
-            durationFrames={cut.durationFrames}
-            transition={cut.transition ?? "cut"}
-          />
+      {TIMELINE.map((cut, i) => {
+        const hasImages = cut.images && cut.images.length > 0;
 
-          {cut.image && (
-            <ImageOverlayStock
-              src={cut.image}
-              startSec={cut.imageStart ?? 0}
-              durationSec={cut.imageDuration ?? 3}
+        return (
+          <Sequence
+            key={i}
+            from={cut.startFrame}
+            durationInFrames={cut.durationFrames}
+            name={`Cena ${i + 1}`}
+          >
+            {/* Vídeo principal - full ou split */}
+            <ZoomVideo
+              src="videos/video-original.mp4"
+              startFrom={cut.srcStart}
+              zoom={cut.zoom ?? 1}
+              zoomTarget={cut.zoomTarget ?? "center"}
+              durationFrames={cut.durationFrames}
+              transition={cut.transition ?? "cut"}
+              splitMode={hasImages}
             />
-          )}
 
-          {cut.transition === "zoom-in" && <CutFlash />}
-        </Sequence>
-      ))}
+            {/* Imagens alternantes em split-screen */}
+            {hasImages && (
+              <SplitImages
+                images={cut.images!}
+                startSec={cut.imageStart ?? 0}
+                totalDurationFrames={cut.durationFrames}
+              />
+            )}
+
+            {/* Título de cenário */}
+            {cut.scenarioTitle && (
+              <ScenarioTitle
+                title={cut.scenarioTitle}
+                subtitle={cut.scenarioSubtitle}
+              />
+            )}
+
+            {cut.transition === "zoom-in" && <CutFlash />}
+          </Sequence>
+        );
+      })}
 
       {/* Legendas */}
       <ReelsCaption words={captions} currentTimeMs={currentTimeMs} />
@@ -542,7 +694,7 @@ export const VideoEditado: React.FC = () => {
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%)",
+            "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.4) 100%)",
           pointerEvents: "none",
         }}
       />
