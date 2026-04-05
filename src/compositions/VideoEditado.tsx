@@ -42,7 +42,7 @@ const CUTS: CutType[] = [
   // "Essa ferramenta faz o trabalho de 10 pessoas..."
   {
     srcStart: 13.5,
-    srcEnd: 22,
+    srcEnd: 22.8,
     zoom: 1.15,
     zoomTarget: "face",
     transition: "fade",
