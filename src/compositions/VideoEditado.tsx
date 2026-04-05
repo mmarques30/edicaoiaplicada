@@ -55,8 +55,8 @@ const CUTS: CutType[] = [
     zoom: 1.35,
     zoomTarget: "face",
     transition: "zoom-in",
-    images: ["images/genspark.jpg", "images/genspark-dashboard.jpg"],
-    imageStart: 2,
+    images: ["images/genspark.jpg", "images/genspark-design2.jpg"],
+    imageStart: 0,
   },
 
   // "Já está competindo... vou te mostrar o poder real"
@@ -65,22 +65,22 @@ const CUTS: CutType[] = [
     srcEnd: 43,
     zoom: 1.0,
     transition: "fade",
-    images: ["images/ai-tool.jpg", "images/genspark.jpg"],
-    imageStart: 2,
+    images: ["images/ai-tool.jpg", "images/genspark-dashboard.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 1: Negócio do zero ===
-  // "Imagina que vai lançar um negócio do zero..."
+  // "você vai lançar um negócio do zero..." (pula pausa de 51-54.5s)
   {
-    srcStart: 51,
+    srcStart: 54.5,
     srcEnd: 63,
     zoom: 1.1,
     zoomTarget: "face",
     transition: "zoom-in",
     scenarioTitle: "Cenário 1",
     scenarioSubtitle: "Negócio do Zero",
-    images: ["images/genspark-branding.jpg", "images/branding-mockup.jpg"],
-    imageStart: 2.5,
+    images: ["images/genspark-branding.jpg", "images/genspark-design2.jpg"],
+    imageStart: 0,
   },
 
   // "Ela faz a pesquisa, busca referências..."
@@ -89,8 +89,8 @@ const CUTS: CutType[] = [
     srcEnd: 71,
     zoom: 1.25,
     zoomTarget: "face",
-    images: ["images/branding-mockup.jpg", "images/design-tools.jpg", "images/genspark-branding.jpg"],
-    imageStart: 0.5,
+    images: ["images/genspark-tshirt.jpg", "images/design-tools.jpg", "images/genspark-design4.jpg"],
+    imageStart: 0,
   },
 
   // "Logo, cores, cartões... Tudo feito automaticamente"
@@ -100,8 +100,8 @@ const CUTS: CutType[] = [
     zoom: 1.4,
     zoomTarget: "face",
     transition: "zoom-in",
-    images: ["images/design-tools.jpg", "images/genspark-branding.jpg"],
-    imageStart: 0.5,
+    images: ["images/branding-mockup.jpg", "images/genspark-design2.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 2: Website ===
@@ -112,8 +112,8 @@ const CUTS: CutType[] = [
     transition: "fade",
     scenarioTitle: "Cenário 2",
     scenarioSubtitle: "Website Profissional",
-    images: ["images/genspark-site.jpg", "images/website-mockup.jpg", "images/genspark-site.jpg"],
-    imageStart: 2.5,
+    images: ["images/genspark-site.jpg", "images/website-mockup.jpg", "images/genspark-dashboard.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 3: Pitch deck ===
@@ -125,8 +125,8 @@ const CUTS: CutType[] = [
     transition: "zoom-in",
     scenarioTitle: "Cenário 3",
     scenarioSubtitle: "Pitch Deck",
-    images: ["images/genspark-pitch.jpg", "images/pitch-deck.jpg", "images/genspark-pitch.jpg"],
-    imageStart: 2.5,
+    images: ["images/genspark-pitch.jpg", "images/pitch-deck.jpg", "images/genspark-slides-compare.jpg"],
+    imageStart: 0,
   },
 
   // === CENÁRIO 4: Automação clientes ===
@@ -137,41 +137,40 @@ const CUTS: CutType[] = [
     transition: "fade",
     scenarioTitle: "Cenário 4",
     scenarioSubtitle: "Automação de Clientes",
-    images: ["images/genspark-email.jpg", "images/email-dashboard.jpg", "images/genspark-email.jpg"],
-    imageStart: 2.5,
+    images: ["images/genspark-email.jpg", "images/email-dashboard.jpg", "images/ai-tool.jpg"],
+    imageStart: 0,
   },
 
   // === ENCERRAMENTO ===
-  // "Gens Park, ela cria imagens, vídeos, design, Excel..."
+  // "Gens Park, ela cria imagens, vídeos, design, Excel... tudo ligado"
   {
     srcStart: 207,
-    srcEnd: 220,
+    srcEnd: 214.2,
     zoom: 1.2,
     zoomTarget: "face",
     transition: "fade",
     images: [
-      "images/ai-workspace.jpg",
+      "images/genspark-design2.jpg",
       "images/genspark.jpg",
-      "images/genspark-dashboard.jpg",
-      "images/genspark-site.jpg",
+      "images/ai-workspace.jpg",
     ],
-    imageStart: 1.5,
+    imageStart: 0,
   },
 
-  // "100% gratuito para você começar"
+  // "Onde você pode usar todas as coisas em um só lugar... 100% gratuito"
   {
-    srcStart: 239,
+    srcStart: 243.5,
     srcEnd: 252,
     zoom: 1.1,
     transition: "zoom-in",
-    images: ["images/genspark.jpg"],
-    imageStart: 2,
+    images: ["images/genspark-dashboard.jpg", "images/genspark.jpg"],
+    imageStart: 0,
   },
 
   // CTA final: "Quer testar? Comenta aí que eu te envio o link por DM"
   {
     srcStart: 252,
-    srcEnd: 255,
+    srcEnd: 256,
     zoom: 1.4,
     zoomTarget: "face",
     transition: "zoom-in",

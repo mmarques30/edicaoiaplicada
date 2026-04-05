@@ -375,21 +375,6 @@
     "endMs": 42640
   },
   {
-    "text": "Imagina",
-    "startMs": 51600,
-    "endMs": 52160
-  },
-  {
-    "text": "que",
-    "startMs": 52160,
-    "endMs": 52300
-  },
-  {
-    "text": "você",
-    "startMs": 52300,
-    "endMs": 54680
-  },
-  {
     "text": "vai",
     "startMs": 54680,
     "endMs": 56000
@@ -788,11 +773,6 @@
     "text": "dados",
     "startMs": 102580,
     "endMs": 102800
-  },
-  {
-    "text": "E",
-    "startMs": 117960,
-    "endMs": 118440
   },
   {
     "text": "o",
@@ -1240,131 +1220,6 @@
     "endMs": 214200
   },
   {
-    "text": "Isso",
-    "startMs": 214580,
-    "endMs": 214860
-  },
-  {
-    "text": "sim,",
-    "startMs": 214860,
-    "endMs": 215180
-  },
-  {
-    "text": "é",
-    "startMs": 215300,
-    "endMs": 215380
-  },
-  {
-    "text": "um",
-    "startMs": 215380,
-    "endMs": 215460
-  },
-  {
-    "text": "workspace",
-    "startMs": 215460,
-    "endMs": 215720
-  },
-  {
-    "text": "de",
-    "startMs": 215720,
-    "endMs": 216040
-  },
-  {
-    "text": "inteligência",
-    "startMs": 216040,
-    "endMs": 216600
-  },
-  {
-    "text": "artificial",
-    "startMs": 216600,
-    "endMs": 217420
-  },
-  {
-    "text": "sério,",
-    "startMs": 217420,
-    "endMs": 218240
-  },
-  {
-    "text": "que",
-    "startMs": 218480,
-    "endMs": 218660
-  },
-  {
-    "text": "faz",
-    "startMs": 218660,
-    "endMs": 218900
-  },
-  {
-    "text": "tudo",
-    "startMs": 218900,
-    "endMs": 219100
-  },
-  {
-    "text": "isso",
-    "startMs": 219100,
-    "endMs": 219420
-  },
-  {
-    "text": "sem",
-    "startMs": 219420,
-    "endMs": 219680
-  },
-  {
-    "text": "você",
-    "startMs": 219680,
-    "endMs": 219920
-  },
-  {
-    "text": "ficar",
-    "startMs": 219920,
-    "endMs": 220040
-  },
-  {
-    "text": "Isso",
-    "startMs": 239360,
-    "endMs": 239600
-  },
-  {
-    "text": "sim,",
-    "startMs": 239600,
-    "endMs": 239840
-  },
-  {
-    "text": "é",
-    "startMs": 239880,
-    "endMs": 239960
-  },
-  {
-    "text": "um",
-    "startMs": 239960,
-    "endMs": 239980
-  },
-  {
-    "text": "workspace",
-    "startMs": 239980,
-    "endMs": 240180
-  },
-  {
-    "text": "de",
-    "startMs": 240180,
-    "endMs": 240440
-  },
-  {
-    "text": "inteligência",
-    "startMs": 240440,
-    "endMs": 240820
-  },
-  {
-    "text": "artificial",
-    "startMs": 240820,
-    "endMs": 243380
-  },
-  {
-    "text": "sério.",
-    "startMs": 243380,
-    "endMs": 243720
-  },
-  {
     "text": "Onde",
     "startMs": 243900,
     "endMs": 244180
@@ -1450,14 +1305,9 @@
     "endMs": 247680
   },
   {
-    "text": "pre",
+    "text": "upgrade",
     "startMs": 247680,
     "endMs": 247800
-  },
-  {
-    "text": "-grade",
-    "startMs": 247800,
-    "endMs": 248000
   },
   {
     "text": "para",
