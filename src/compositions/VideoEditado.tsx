@@ -52,7 +52,7 @@ const CUTS: CutType[] = [
   // (pula "O nome da ferramenta se chama" para evitar repetir "ferramenta")
   {
     srcStart: 24.3,
-    srcEnd: 32,
+    srcEnd: 32.3,
     zoom: 1.35,
     zoomTarget: "face",
     transition: "fade",
@@ -63,7 +63,7 @@ const CUTS: CutType[] = [
   // "Já está competindo... vou te mostrar o poder real"
   {
     srcStart: 34,
-    srcEnd: 42.5,
+    srcEnd: 43,
     zoom: 1.0,
     transition: "fade",
     images: ["images/ai-tool.jpg", "images/genspark-dashboard.jpg"],
@@ -74,7 +74,7 @@ const CUTS: CutType[] = [
   // "vai lançar um negócio do zero..." (pula pausa/silêncio de 51-54.5s)
   {
     srcStart: 54.5,
-    srcEnd: 62,
+    srcEnd: 62.5,
     zoom: 1.1,
     zoomTarget: "face",
     transition: "fade",
@@ -87,7 +87,7 @@ const CUTS: CutType[] = [
   // "faz a pesquisa, busca referências..." (pula "Ela" do início)
   {
     srcStart: 63.2,
-    srcEnd: 71,
+    srcEnd: 71.5,
     zoom: 1.25,
     zoomTarget: "face",
     transition: "fade",
@@ -95,10 +95,10 @@ const CUTS: CutType[] = [
     imageStart: 0,
   },
 
-  // "Logo, cores, cartões... Tudo feito"
+  // "Logo, cores, cartões... Tudo feito automaticamente"
   {
-    srcStart: 71,
-    srcEnd: 77,
+    srcStart: 71.5,
+    srcEnd: 78.5,
     zoom: 1.4,
     zoomTarget: "face",
     transition: "fade",
@@ -109,7 +109,7 @@ const CUTS: CutType[] = [
   // === CENÁRIO 2: Website ===
   {
     srcStart: 92,
-    srcEnd: 103,
+    srcEnd: 103.5,
     zoom: 1.0,
     transition: "fade",
     scenarioTitle: "Cenário 2",
@@ -147,7 +147,7 @@ const CUTS: CutType[] = [
   // "Gens Park, ela cria imagens, vídeos, design, Excel... tudo ligado"
   {
     srcStart: 207,
-    srcEnd: 214.2,
+    srcEnd: 214.7,
     zoom: 1.2,
     zoomTarget: "face",
     transition: "fade",
