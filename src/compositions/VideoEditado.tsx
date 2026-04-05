@@ -48,21 +48,22 @@ const CUTS: CutType[] = [
     transition: "fade",
   },
 
-  // "O nome é Gens Park... 1 bilhão de dólares"
+  // "Gens Park... equipe de 30 pessoas... 1 bilhão de dólares"
+  // (pula "O nome da ferramenta se chama" para evitar repetir "ferramenta")
   {
-    srcStart: 22,
+    srcStart: 24.3,
     srcEnd: 32,
     zoom: 1.35,
     zoomTarget: "face",
-    transition: "zoom-in",
-    images: ["images/genspark.jpg", "images/genspark-design2.jpg"],
+    transition: "fade",
+    images: ["images/genspark.jpg", "images/genspark-team.jpg"],
     imageStart: 0,
   },
 
   // "Já está competindo... vou te mostrar o poder real"
   {
     srcStart: 34,
-    srcEnd: 43,
+    srcEnd: 42.5,
     zoom: 1.0,
     transition: "fade",
     images: ["images/ai-tool.jpg", "images/genspark-dashboard.jpg"],
@@ -70,36 +71,37 @@ const CUTS: CutType[] = [
   },
 
   // === CENÁRIO 1: Negócio do zero ===
-  // "você vai lançar um negócio do zero..." (pula pausa de 51-54.5s)
+  // "vai lançar um negócio do zero..." (pula pausa/silêncio de 51-54.5s)
   {
     srcStart: 54.5,
-    srcEnd: 63,
+    srcEnd: 62,
     zoom: 1.1,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
     scenarioTitle: "Cenário 1",
     scenarioSubtitle: "Negócio do Zero",
     images: ["images/genspark-branding.jpg", "images/genspark-design2.jpg"],
     imageStart: 0,
   },
 
-  // "Ela faz a pesquisa, busca referências..."
+  // "faz a pesquisa, busca referências..." (pula "Ela" do início)
   {
-    srcStart: 63,
+    srcStart: 63.2,
     srcEnd: 71,
     zoom: 1.25,
     zoomTarget: "face",
+    transition: "fade",
     images: ["images/genspark-tshirt.jpg", "images/design-tools.jpg", "images/genspark-design4.jpg"],
     imageStart: 0,
   },
 
-  // "Logo, cores, cartões... Tudo feito automaticamente"
+  // "Logo, cores, cartões... Tudo feito"
   {
     srcStart: 71,
     srcEnd: 77,
     zoom: 1.4,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
     images: ["images/branding-mockup.jpg", "images/genspark-design2.jpg"],
     imageStart: 0,
   },
@@ -122,7 +124,7 @@ const CUTS: CutType[] = [
     srcEnd: 130,
     zoom: 1.15,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
     scenarioTitle: "Cenário 3",
     scenarioSubtitle: "Pitch Deck",
     images: ["images/genspark-pitch.jpg", "images/pitch-deck.jpg", "images/genspark-slides-compare.jpg"],
@@ -162,7 +164,7 @@ const CUTS: CutType[] = [
     srcStart: 243.5,
     srcEnd: 252,
     zoom: 1.1,
-    transition: "zoom-in",
+    transition: "fade",
     images: ["images/genspark-dashboard.jpg", "images/genspark.jpg"],
     imageStart: 0,
   },
@@ -173,7 +175,7 @@ const CUTS: CutType[] = [
     srcEnd: 256,
     zoom: 1.4,
     zoomTarget: "face",
-    transition: "zoom-in",
+    transition: "fade",
   },
 ];
 
@@ -225,15 +227,19 @@ const ZoomVideo: React.FC<{
 
   let opacity = 1;
   if (transition === "fade") {
-    opacity = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
+    opacity = interpolate(frame, [0, 12], [0, 1], {
+      extrapolateRight: "clamp",
+      easing: Easing.out(Easing.cubic),
+    });
   }
 
   let entranceScale = 1;
   if (transition === "zoom-in") {
-    entranceScale = interpolate(frame, [0, 10], [1.08, 1], {
+    entranceScale = interpolate(frame, [0, 12], [1.06, 1], {
       extrapolateRight: "clamp",
       easing: Easing.out(Easing.cubic),
     });
+    opacity = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
   }
 
   const drift = interpolate(frame, [0, durationFrames], [0, 1.5], {

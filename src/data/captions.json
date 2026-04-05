@@ -115,41 +115,6 @@
     "endMs": 22240
   },
   {
-    "text": "alerta.",
-    "startMs": 22240,
-    "endMs": 22600
-  },
-  {
-    "text": "O",
-    "startMs": 22860,
-    "endMs": 23020
-  },
-  {
-    "text": "nome",
-    "startMs": 23020,
-    "endMs": 23180
-  },
-  {
-    "text": "da",
-    "startMs": 23180,
-    "endMs": 23300
-  },
-  {
-    "text": "ferramenta",
-    "startMs": 23300,
-    "endMs": 23820
-  },
-  {
-    "text": "se",
-    "startMs": 23820,
-    "endMs": 24060
-  },
-  {
-    "text": "chama",
-    "startMs": 24060,
-    "endMs": 24340
-  },
-  {
     "text": "Gens",
     "startMs": 24340,
     "endMs": 24820
@@ -478,16 +443,6 @@
     "text": "está",
     "startMs": 62240,
     "endMs": 62400
-  },
-  {
-    "text": "feita.",
-    "startMs": 62400,
-    "endMs": 62980
-  },
-  {
-    "text": "Ela",
-    "startMs": 63140,
-    "endMs": 63260
   },
   {
     "text": "faz",
